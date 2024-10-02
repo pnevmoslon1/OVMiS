@@ -1,5 +1,11 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+
+        Converter c = new Converter();
+        System.out.println(c.convertToOut(155));
+        while (true) {
+            c.insert();
+
+        }
     }
 }
