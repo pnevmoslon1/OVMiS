@@ -1,8 +1,8 @@
 import java.util.Scanner;
 
 public class Converter {
-    int baseIn = 10;
-    int baseOut = 16;
+    int baseIn = 2;
+    int baseOut = 2;
     String str = new String();
     int[] arr;
 
@@ -28,7 +28,7 @@ public class Converter {
         for (int i = 0; i < str.length(); i++) {
 
             if (str.charAt(i) == '-' && i == 0) continue;
-            if (!check(str.charAt(i)) || baseOut < 2 || baseIn < 2 || baseOut > 15 || baseIn > 15) {
+            if (!check(str.charAt(i)) || baseOut < 2 || baseIn < 2 || baseOut > 16 || baseIn > 16) {
                 System.out.println("неправильный ввод");
                 return;
             }
@@ -58,7 +58,7 @@ public class Converter {
         return res;
     }
 
-    public String convertToOut(int n) {
+    String convertToOut(int n) {
         String res = "";
         String m = "";
         if (n < 0) {
@@ -69,16 +69,34 @@ public class Converter {
             if (n % baseOut < 10) {
                 res = res + n % baseOut;
             } else {
-                res = res + (char)(n % baseOut - 10 + 'A');
+                res = res + (char) (n % baseOut - 10 + 'A');
             }
             n /= baseOut;
         }
 
         if (n < 10) res = res + n + m;
-        else res = res + (char)(n - 10 + 'A') + m;
+        else res = res + (char) (n - 10 + 'A') + m;
         res = new StringBuilder(res).reverse().toString();
 
+        if (baseOut == 2) {
+            int len = 2;
+            while (len < res.length() + 1) {
+                len *= 2;
+            }
+            int kk = 0;
+            String pk = "";
+            if(m == "-") pk += "1";
+            else pk += "0";
+            for (int i = 1; i < len; i++) {
+
+            }
+
+        }
         return res;
     }
 
+    public void convertFromTo() {
+        insert();
+        System.out.println(convertToOut(convertTo10(str)));
+    }
 }
