@@ -9,20 +9,23 @@ public class Converter {
 
     private boolean check(Character c) {
 
-        if (Character.isAlphabetic(c) && (int) c - (int) 'A' < baseIn || c >= 'A' && c <= 'F') {
+        if (Character.isAlphabetic(c) && (int) c - (int) 'A'  + 10 < baseIn || c >= 'A' && c <= 'F') {
             return true;
         }
-        if (Character.isDigit(c) && (int) c - (int) '0' <= baseOut || (int) c - (int) '0' < 2) {
+        if (Character.isDigit(c) && (int) c - (int) '0' <= baseIn || (int) c - (int) '0' < 2) {
             return true;
         }
         return false;
     }
 
 
-    public void insert() {
+    public void convertFromTo() {
         Scanner sc = new Scanner(System.in);
+        System.out.print("\n" + "baseIn ");
         baseIn = sc.nextInt();
+        System.out.print("baseOut ");
         baseOut = sc.nextInt();
+        System.out.print("n ");
         str = sc.next();
 
         for (int i = 0; i < str.length(); i++) {
@@ -33,12 +36,8 @@ public class Converter {
                 return;
             }
         }
-        arr = new int[str.length()];
-        for (int i = 0; i < str.length(); i++) {
-            if (Character.isAlphabetic(str.charAt(i))) {
-                arr[i] = (int) str.charAt(i) - 'A';
-            }
-        }
+
+        System.out.println(convertToOut(convertTo10(str)));
     }
 
 
@@ -56,6 +55,42 @@ public class Converter {
         else if (Character.isAlphabetic(n.charAt(0)))
             res += ((n.charAt(0) - 'A') + 10) * (int) Math.pow(baseIn, n.length() - 1);
         return res;
+    }
+
+
+    public static String convertToSignMagnitude(String binary) {
+        // Проверяем, является ли число отрицательным
+        boolean isNegative = binary.startsWith("-");
+        if (isNegative) {
+            binary = binary.substring(1); // Убираем знак минус
+        }
+
+        // Прямой код: добавляем 0 для положительных и 1 для отрицательных
+        String signBit = isNegative ? "1" : "0";
+
+        // Дополняем до ближайшей степени двойки
+        int length = binary.length();
+        int nextPowerOfTwo = (int) Math.pow(2, Math.ceil(Math.log(length + 1) / Math.log(2)));
+
+        // Добавляем незначащие нули
+        while (binary.length() < nextPowerOfTwo - 1) {
+            binary = "0" + binary;
+        }
+        binary = signBit + binary;
+
+        // Форматируем строку, добавляя пробелы каждые 4 цифры
+        return formatWithSpaces(binary);
+    }
+
+    public static String formatWithSpaces(String binary) {
+        StringBuilder formatted = new StringBuilder();
+        for (int i = 0; i < binary.length(); i++) {
+            if (i > 0 && i % 4 == 0) {
+                formatted.append(" "); // Добавляем пробел каждые 4 цифры
+            }
+            formatted.append(binary.charAt(i));
+        }
+        return formatted.toString();
     }
 
     String convertToOut(int n) {
@@ -79,24 +114,11 @@ public class Converter {
         res = new StringBuilder(res).reverse().toString();
 
         if (baseOut == 2) {
-            int len = 2;
-            while (len < res.length() + 1) {
-                len *= 2;
-            }
-            int kk = 0;
-            String pk = "";
-            if(m == "-") pk += "1";
-            else pk += "0";
-            for (int i = 1; i < len; i++) {
 
-            }
-
+            res += " ПК " + convertToSignMagnitude(res);
         }
         return res;
     }
 
-    public void convertFromTo() {
-        insert();
-        System.out.println(convertToOut(convertTo10(str)));
-    }
+
 }
