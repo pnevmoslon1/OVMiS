@@ -1,11 +1,15 @@
-import java.util.Scanner;
-
 public class Converter {
     int baseIn = 2;
     int baseOut = 2;
     String str = new String();
-    int[] arr;
+    public String signMagnitude = new String();
 
+    Converter(int in, int out, String n) {
+        baseIn = in;
+        baseOut = out;
+        str = n;
+        convertFromTo();
+    }
 
     private boolean check(Character c) {
 
@@ -19,25 +23,17 @@ public class Converter {
     }
 
 
-    public void convertFromTo() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("\n" + "baseIn ");
-        baseIn = sc.nextInt();
-        System.out.print("baseOut ");
-        baseOut = sc.nextInt();
-        System.out.print("n ");
-        str = sc.next();
+    public String convertFromTo() {
 
         for (int i = 0; i < str.length(); i++) {
 
             if (str.charAt(i) == '-' && i == 0) continue;
             if (!check(str.charAt(i)) || baseOut < 2 || baseIn < 2 || baseOut > 16 || baseIn > 16) {
-                System.out.println("неправильный ввод");
-                return;
+                return "неправильный ввод";
             }
         }
 
-        System.out.println(convertToOut(convertTo10(str)));
+        return convertToOut(convertTo10(str));
     }
 
 
@@ -58,35 +54,34 @@ public class Converter {
     }
 
 
-    public static String convertToSignMagnitude(String binary) {
-        // Проверяем, является ли число отрицательным
+    public String convertToSignMagnitude(String binary) {
         boolean isNegative = binary.startsWith("-");
         if (isNegative) {
-            binary = binary.substring(1); // Убираем знак минус
+            binary = binary.substring(1);
         }
 
-        // Прямой код: добавляем 0 для положительных и 1 для отрицательных
+
         String signBit = isNegative ? "1" : "0";
 
-        // Дополняем до ближайшей степени двойки
+
         int length = binary.length();
         int nextPowerOfTwo = (int) Math.pow(2, Math.ceil(Math.log(length + 1) / Math.log(2)));
 
-        // Добавляем незначащие нули
+
         while (binary.length() < nextPowerOfTwo - 1) {
             binary = "0" + binary;
         }
         binary = signBit + binary;
+        signMagnitude = binary;
 
-        // Форматируем строку, добавляя пробелы каждые 4 цифры
         return formatWithSpaces(binary);
     }
 
-    public static String formatWithSpaces(String binary) {
+    public String formatWithSpaces(String binary) {
         StringBuilder formatted = new StringBuilder();
         for (int i = 0; i < binary.length(); i++) {
             if (i > 0 && i % 4 == 0) {
-                formatted.append(" "); // Добавляем пробел каждые 4 цифры
+                formatted.append(" ");
             }
             formatted.append(binary.charAt(i));
         }

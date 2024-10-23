@@ -1,11 +1,8 @@
 public class Main {
     public static void main(String[] args) {
+        Calculator c = new Calculator(10, "-10", "10");
+        System.out.println();
 
-        Converter c = new Converter();
-        System.out.println(c.convertToOut(19));
-        while (true) {
-            c.convertFromTo();
 
-        }
     }
 }
