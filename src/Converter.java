@@ -13,7 +13,7 @@ public class Converter {
 
     private boolean check(Character c) {
 
-        if (Character.isAlphabetic(c) && (int) c - (int) 'A'  + 10 < baseIn || c >= 'A' && c <= 'F') {
+        if (Character.isAlphabetic(c) && (int) c - (int) 'A' + 10 < baseIn && c >= 'A') {
             return true;
         }
         if (Character.isDigit(c) && (int) c - (int) '0' <= baseIn || (int) c - (int) '0' < 2) {
@@ -114,6 +114,4 @@ public class Converter {
         }
         return res;
     }
-
-
 }
