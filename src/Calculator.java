@@ -1,3 +1,4 @@
+
 public class Calculator {
     String a = new String();
     String b = new String();
@@ -13,7 +14,6 @@ public class Calculator {
         if (a.length() > b.length()) b = addZero(a.length() - b.length(), b);
         else a = addZero(b.length() - a.length(), a);
 
-        System.out.println(a + "\n" + b);
         sum(a, b);
     }
 
@@ -23,7 +23,7 @@ public class Calculator {
             str = str.substring(1);
         }
         String signBit = isNegative ? "1" : "0";
-        for (int i = 0; i < count; i++) {
+        for (int i = 1; i < count; i++) {
             str = "0" + str;
         }
         str = signBit + str;
@@ -46,10 +46,19 @@ public class Calculator {
         if (a.startsWith("1")) a = reverseCode(a);
         if (b.startsWith("1")) b = reverseCode(b);
 
-        int remainder = 0;
-        String res = "";
+        String digitA;
 
-        System.out.println("\n" + a + "\n" + b);
-        return "";
+        int remainder = 0;
+        int sa;
+        String res = "";
+        for (int i = a.length() - 1; i >= 0; i--) {
+            sa = a.charAt(i) - '0' + b.charAt(i) - '0' + remainder;
+            res = sa % 2 + res;
+            remainder /= 2;
+        }
+        if (remainder > 0) res = remainder + res;
+        System.out.println(a + "\n" + b + "\n" + res);
+        return res;
     }
+
 }
