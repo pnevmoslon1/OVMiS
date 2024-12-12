@@ -54,7 +54,7 @@ public class Converter {
     }
 
 
-    public String convertToSignMagnitude(String binary) {
+    public static String convertToSignMagnitude(String binary) {
         boolean isNegative = binary.startsWith("-");
         if (isNegative) {
             binary = binary.substring(1);
@@ -63,18 +63,18 @@ public class Converter {
 
         String signBit = isNegative ? "1" : "0";
 
+        int nextPowerOfTwo = 1;
 
-        int length = binary.length();
-        int nextPowerOfTwo = (int) Math.pow(2, Math.ceil(Math.log(length + 1) / Math.log(2)));
-
+        while(nextPowerOfTwo < binary.length() + 1){
+            nextPowerOfTwo*=2;
+        }
 
         while (binary.length() < nextPowerOfTwo - 1) {
             binary = "0" + binary;
         }
         binary = signBit + binary;
-        signMagnitude = binary;
 
-        return formatWithSpaces(binary);
+        return binary;
     }
 
     public String formatWithSpaces(String binary) {
@@ -109,9 +109,10 @@ public class Converter {
         res = new StringBuilder(res).reverse().toString();
 
         if (baseOut == 2) {
-
-            res += " ПК " + convertToSignMagnitude(res);
+            signMagnitude = convertToSignMagnitude(res);
+            res += " ПК " + formatWithSpaces(signMagnitude);
         }
         return res;
     }
+
 }
